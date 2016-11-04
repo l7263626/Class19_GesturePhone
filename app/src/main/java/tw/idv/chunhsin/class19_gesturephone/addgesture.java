@@ -22,7 +22,6 @@ public class addgesture extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addgesture);
-
         findViews();
     }
 
@@ -32,14 +31,14 @@ public class addgesture extends AppCompatActivity {
         btnAddGesture = (Button)findViewById(R.id.btnAddGesture);
         btnClearGesture = (Button)findViewById(R.id.btnClearGesture);
         gesture_add = (GestureOverlayView)findViewById(R.id.gesture_add);
-        gesture_add.addOnGesturingListener((GestureOverlayView.OnGesturingListener) gestureListener);
+        gesture_add.addOnGestureListener(gestureListener);
     }
 
 
     GestureOverlayView.OnGestureListener gestureListener = new GestureOverlayView.OnGestureListener() {
         @Override
         public void onGestureStarted(GestureOverlayView overlay, MotionEvent event) {
-
+            btnAddGesture.setEnabled(false);
         }
 
         @Override
@@ -49,9 +48,18 @@ public class addgesture extends AppCompatActivity {
 
         @Override
         public void onGestureEnded(GestureOverlayView overlay, MotionEvent event) {
-            String strPhoneNum=etPhone.getText().toString();
-            String strGestureName=etGestureName.getText().toString();
-            btnAddGesture.setEnabled(true);
+            Gesture gesture = overlay.getGesture();
+            if(gesture.getLength()>0){
+                String strPhoneNum=etPhone.getText().toString();
+                String strGestureName=etGestureName.getText().toString();
+                if(!strPhoneNum.equals("") && !strGestureName.equals("")){
+                    btnAddGesture.setEnabled(true);
+                }else{
+                    btnAddGesture.setEnabled(false);
+                }
+            }else{
+                btnAddGesture.setEnabled(false);
+            }
         }
 
         @Override

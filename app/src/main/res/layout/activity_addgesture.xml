@@ -82,7 +82,9 @@
     <android.gesture.GestureOverlayView
         android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_weight="1"
-        android:id="@+id/gesture_add"></android.gesture.GestureOverlayView>
+        android:id="@+id/gesture_add"
+        android:background="@android:color/background_dark"
+        android:gestureStrokeType="multiple"></android.gesture.GestureOverlayView>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -103,6 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnClearGesture"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="clearGesture" />
     </LinearLayout>
 </LinearLayout>
