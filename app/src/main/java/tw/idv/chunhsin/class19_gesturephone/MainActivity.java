@@ -1,8 +1,10 @@
 package tw.idv.chunhsin.class19_gesturephone;
 
+import android.content.Intent;
 import android.gesture.GestureOverlayView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,4 +24,15 @@ public class MainActivity extends AppCompatActivity {
         btnShowGestureList = (Button)findViewById(R.id.btnShowGestureList);
         gesture_main = (GestureOverlayView)findViewById(R.id.gesture_main);
     }
+
+    public void clickToAddGesture(View view){
+        Intent intent = new Intent(MainActivity.this,addgesture.class);
+        startActivity(intent);
+    }
+
+    public void clickToListGesture(View view){
+        Intent intent = new Intent(MainActivity.this,ListGestureActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -1,5 +1,6 @@
 package tw.idv.chunhsin.class19_gesturephone;
 
+import android.content.SharedPreferences;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -80,7 +82,16 @@ public class addgesture extends AppCompatActivity {
         //若有之前的手勢檔則先讀取後再儲存，否則只會儲入最後一個手勢
         Gesture gesture=gesture_add.getGesture();
         library.addGesture(etGestureName.getText().toString(),gesture);
-        library.save();
+        if(library.save()){
+            //存入資料到SharedPrefereces
+            String strPhoneNum=etPhone.getText().toString();
+            String strGestureName=etGestureName.getText().toString();
+            SharedPreferences phoneBook=getSharedPreferences("phoneBook",MODE_PRIVATE);
+            SharedPreferences.Editor editor=phoneBook.edit();
+            editor.putString(strGestureName,strPhoneNum);
+            editor.commit();
+            Toast.makeText(this,"手勢已儲存",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void clearGesture(View view){
