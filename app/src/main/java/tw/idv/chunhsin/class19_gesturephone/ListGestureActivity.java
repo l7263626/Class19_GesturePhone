@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,19 +37,24 @@ public class ListGestureActivity extends AppCompatActivity {
         File path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File file=new File(path,"myGesture");
         GestureLibrary library= GestureLibraries.fromFile(file);
-        SharedPreferences phoneBook=getSharedPreferences("phoneBook",MODE_PRIVATE);
-
-        Set<String> gesNames=library.getGestureEntries();
-        ArrayList<HashMap<String,Object>> data=new ArrayList<>();
-        for(String gesName:gesNames){
-            ArrayList<Gesture> gestures=library.getGestures(gesName);
-            for(Gesture ges:gestures){
-                HashMap<String,Object> items=new HashMap<>();
-                items.put("gesPic",ges.toBitmap(100,100,5, Color.BLUE));
-                items.put("gesName",gesName);
-                items.put("phoneNum",phoneBook.getString(gesName,""));
-                data.add(items);
+        SharedPreferences phoneBook = getSharedPreferences("phoneBook", MODE_PRIVATE);
+        ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+        if(library.load()) {
+            Set<String> gesNames = library.getGestureEntries();
+            int i = 0;
+            for (String gesName : gesNames) {
+                ArrayList<Gesture> gestures = library.getGestures(gesName);
+                for (Gesture ges : gestures) {
+                    i++;
+                    HashMap<String, Object> items = new HashMap<>();
+                    items.put("gesPic", ges.toBitmap(80, 80, 5, Color.BLUE));
+                    items.put("gesName", gesName);
+                    items.put("phoneNum", phoneBook.getString(gesName, ""));
+                    data.add(items);
+                }
             }
+            GestureAdapter gestureAdapter = new GestureAdapter(this, data);
+            listView.setAdapter(gestureAdapter);
         }
     }
 }
